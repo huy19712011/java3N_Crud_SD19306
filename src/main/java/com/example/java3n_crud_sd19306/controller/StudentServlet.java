@@ -15,6 +15,8 @@ import java.util.Map;
 @WebServlet(name = "StudentServlet", value = {
         "/students",
         "/students/new",
+        "/students/insert",
+        "/students/edit",
         "/students/delete"
 })
 public class StudentServlet extends HttpServlet {
@@ -52,13 +54,43 @@ public class StudentServlet extends HttpServlet {
                 listStudents(request, response);
                 break;
             case "/students/new":
+                showNewForm(request, response);
+                break;
+            case "/students/insert":
                 insertStudent(request, response);
+                break;
+            case "/students/edit":
+                editStudent(request, response);
                 break;
             case "/students/delete":
                 deleteStudent(request, response);
+                break;
         }
 
 
+    }
+
+    private void editStudent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        // get id
+        Long id = Long.parseLong(request.getParameter("id"));
+
+        // get student by id
+        Student student = service.getStudentById(id);
+
+        // send data to form
+        request.setAttribute("student", student);
+
+        request
+                .getRequestDispatcher("/view/updateStudentForm.jsp")
+                .forward(request, response);
+    }
+
+    private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        request
+                .getRequestDispatcher("/view/addStudentForm.jsp")
+                .forward(request, response);
     }
 
     private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -73,7 +105,23 @@ public class StudentServlet extends HttpServlet {
         response.sendRedirect("/students");
     }
 
-    private void insertStudent(HttpServletRequest request, HttpServletResponse response) {
+    private void insertStudent(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        // read student info from form
+        Long id = Long.parseLong(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+
+        // new student
+        Student student = new Student(id, name, email, phone);
+        System.out.println(student.getId());
+
+        // add new student to list
+        service.addStudent(student);
+
+        // show table
+        response.sendRedirect("/students");
     }
 
     private void listStudents(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -93,6 +141,6 @@ public class StudentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        doGet(request, response);
     }
 }

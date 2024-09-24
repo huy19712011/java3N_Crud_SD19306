@@ -23,4 +23,17 @@ public class StudentDao {
 
         students.removeIf(student -> student.getId().equals(id));
     }
+
+    public void addStudent(Student student) {
+
+        students.add(student);
+    }
+
+    public Student getStudentById(Long id) {
+
+        return students.stream()
+                .filter(student -> student.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
 }

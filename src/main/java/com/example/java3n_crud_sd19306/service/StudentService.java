@@ -18,4 +18,14 @@ public class StudentService {
 
         studentDao.deleteStudent(id);
     }
+
+    public void addStudent(Student student) {
+
+        studentDao.addStudent(student);
+    }
+
+    public Student getStudentById(Long id) {
+
+        return studentDao.getStudentById(id);
+    }
 }

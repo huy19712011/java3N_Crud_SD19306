@@ -26,7 +26,7 @@
             <td>
                 <a href="/students/edit?id=${tempStudent.id}">Edit</a>
                 ||
-                <a href="/students/delete?id=${tempStudent.id}">Delete</a>
+                <a href="/students/delete?id=${tempStudent.id} " onclick="if (!(confirm('Are you sure?'))) return false">Delete</a>
             </td>
         </tr>
     </c:forEach>

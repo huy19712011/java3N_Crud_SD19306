@@ -28,4 +28,9 @@ public class StudentService {
 
         return studentDao.getStudentById(id);
     }
+
+    public void updateStudent(Student student) {
+
+        studentDao.updateStudent(student);
+    }
 }

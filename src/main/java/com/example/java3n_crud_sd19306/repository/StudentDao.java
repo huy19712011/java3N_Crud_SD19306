@@ -36,4 +36,10 @@ public class StudentDao {
                 .findFirst()
                 .orElse(null);
     }
+
+    public void updateStudent(Student student) {
+
+        // students.set(index, new_value);
+        students.set(students.indexOf(getStudentById(student.getId())), student);
+    }
 }
